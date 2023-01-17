@@ -15,6 +15,7 @@ app.get('/', (req, res) => {
 })
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.gplljg9.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
     try {
@@ -23,7 +24,7 @@ async function run() {
         // students collection code
         app.post('/student',async(req,res)=>{
             const items = req.body;
-            const result = await haiku.studentsCollection(items);
+            const result = await studentsCollection.insertOne(items);
             res.send(result);
         })
 
