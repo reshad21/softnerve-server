@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 const app = express();
 require('dotenv').config();
@@ -22,21 +22,27 @@ async function run() {
         const studentsCollection = client.db("softnerveDb").collection("students");
 
         // students collection code
-        app.post('/student',async(req,res)=>{
+        app.post('/student', async (req, res) => {
             const items = req.body;
             const result = await studentsCollection.insertOne(items);
             res.send(result);
         })
-        app.get('/student',async(req,res)=>{
+        app.get('/student', async (req, res) => {
             const query = {};
             const result = await studentsCollection.find(query).toArray();
             res.send(result);
         })
+        app.get('/student/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const result = await studentsCollection.findOne(query)
+            res.send(result);
+        })
 
-       
-    } 
+
+    }
     finally {
-        
+
     }
 }
 run().catch(console.dir);
