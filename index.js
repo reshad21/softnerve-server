@@ -27,6 +27,11 @@ async function run() {
             const result = await studentsCollection.insertOne(items);
             res.send(result);
         })
+        app.get('/student',async(req,res)=>{
+            const query = {};
+            const result = await studentsCollection.find(query).toArray();
+            res.send(result);
+        })
 
        
     } 
