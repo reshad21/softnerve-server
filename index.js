@@ -23,8 +23,8 @@ async function run() {
 
         // students collection code
         app.post('/student', async (req, res) => {
-            const items = req.body;
-            const result = await studentsCollection.insertOne(items);
+            const update = req.body;
+            const result = await studentsCollection.insertOne(update);
             res.send(result);
         })
         app.get('/student', async (req, res) => {
@@ -38,12 +38,34 @@ async function run() {
             const result = await studentsCollection.findOne(query)
             res.send(result);
         })
-        app.delete('/student/:id',async(req,res)=>{
+        app.delete('/student/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id);
             const query = { _id: ObjectId(id) }
             const result = await studentsCollection.deleteOne(query);
             res.send(result);
+        })
+        app.put('/student/:id', async (req, res) => {
+            const id = req.params.id;
+            const update = req.body;
+            console.log(id, update);
+
+            const query = { _id: ObjectId(id) }
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    // plot: `A harvest of random numbers, such as: ${Math.random()}`,
+                    phoneNumber: update.phoneNumber,
+                    address: update.address,
+                    sname: update.sname,
+                    fname: update.fname,
+                    mname: update.mname,
+                    email: update.email
+                },
+            };
+            const result = await studentsCollection.updateOne(query, updateDoc, options);
+            res.send(result);
+
         })
 
 
