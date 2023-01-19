@@ -38,6 +38,13 @@ async function run() {
             const result = await studentsCollection.findOne(query)
             res.send(result);
         })
+        app.delete('/student/:id',async(req,res)=>{
+            const id = req.params.id;
+            console.log(id);
+            const query = { _id: ObjectId(id) }
+            const result = await studentsCollection.deleteOne(query);
+            res.send(result);
+        })
 
 
     }
