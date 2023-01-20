@@ -56,6 +56,7 @@ async function run() {
                 $set: {
                     // plot: `A harvest of random numbers, such as: ${Math.random()}`,
                     phoneNumber: update.phoneNumber,
+                    department: update.department,
                     address: update.address,
                     sname: update.sname,
                     fname: update.fname,
